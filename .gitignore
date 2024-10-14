@@ -1,0 +1,58 @@
+# Ignore build directories
+build/
+cmake-build-*/
+
+# Ignore object files and binaries
+*.o
+*.obj
+*.so
+*.a
+*.lib
+*.dll
+*.exe
+*.out
+
+# Ignore CMake generated files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# Ignore temporary files
+*.tmp
+*.log
+*.swp
+*.swo
+*.bak
+*.orig
+
+# Ignore generated files from IDEs
+.vscode/
+.idea/
+*.code-workspace
+
+# Ignore auto-generated dependency files
+*.d
+
+# Ignore Qt Creator files
+*.pro.user
+*.qbs.user
+*.pro.user.*
+
+# Ignore Visual Studio files
+*.vcxproj
+*.vcxproj.user
+*.vcxproj.filters
+*.sln
+*.ncb
+*.suo
+*.vcproj.*
+
+# Ignore backup and hidden files
+*~
+.DS_Store
+Thumbs.db
+
+# Ignore vcpkg build directory
+vcpkg_installed/

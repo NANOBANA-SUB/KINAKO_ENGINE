@@ -6,11 +6,11 @@ cmake-build-*/
 *.o
 *.obj
 *.so
-*.a
-*.lib
 *.dll
 *.exe
 *.out
+*.pbd
+*.exp
 
 # Ignore CMake generated files
 CMakeFiles/

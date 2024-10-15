@@ -1,6 +1,7 @@
 # Ignore build directories
 build/
 cmake-build-*/
+coverage_report/
 
 # Ignore object files and binaries
 *.o

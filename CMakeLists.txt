@@ -28,7 +28,7 @@ set(SOURCES
     Main/src/Engine.cpp
 )
 
-# 実行ファイルを作成
+# 実行ファイルを作成（通常ビルド用）
 add_executable(KINAKO_ENGINE ${SOURCES})
 
 # 必要なライブラリをリンク
@@ -38,3 +38,26 @@ target_link_libraries(KINAKO_ENGINE
     glew32
     opengl32
 )
+
+# テストのビルドオプションを追加
+option(BUILD_TESTS "Build tests" ON)
+
+if(BUILD_TESTS)
+    enable_testing()
+
+    # テスト用のソースファイルを設定
+    set(TEST_SOURCES
+        test/EngineTest.cpp
+    )
+
+    # テスト実行ファイルを作成
+    add_executable(test_engine ${TEST_SOURCES} Main/src/Engine.cpp)
+
+    # テスト実行ファイルにライブラリをリンク
+    target_link_libraries(test_engine
+        SDL2main
+        SDL2
+        glew32
+        opengl32
+    )
+endif()

@@ -9,6 +9,7 @@ public:
     bool Initialize();
     void RunLoop();
     void Shutdown();
+    quill::Logger* GetLogger() const { return mLogger; }
     
 private:
     bool QuillInitialize();

@@ -11,6 +11,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # インクルードディレクトリを指定
 include_directories(
     ${CMAKE_SOURCE_DIR}/third_party
+    ${CMAKE_SOURCE_DIR}/third_party/assimp/include
     ${CMAKE_SOURCE_DIR}/Main/include
     ${CMAKE_SOURCE_DIR}/include
 )
@@ -20,12 +21,14 @@ link_directories(
     ${CMAKE_SOURCE_DIR}/third_party/GL/lib
     ${CMAKE_SOURCE_DIR}/third_party/SDL2/lib/x64
     ${CMAKE_SOURCE_DIR}/third_party/quill/include
+    ${CMAKE_SOURCE_DIR}/third_party/assimp/lib
 )
 
 # ソースファイルを指定
 set(SOURCES
     Main/src/Main.cpp
     Main/src/Engine.cpp
+    Main/src/MeshLoader.cpp
 )
 
 # 実行ファイルを作成（通常ビルド用）
@@ -37,6 +40,7 @@ target_link_libraries(KINAKO_ENGINE
     SDL2
     glew32
     opengl32
+    assimp-vc143-mtd
 )
 
 # テストのビルドオプションを追加

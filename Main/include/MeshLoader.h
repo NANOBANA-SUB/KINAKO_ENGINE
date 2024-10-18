@@ -1,0 +1,23 @@
+#pragma once
+#include <assimp/include/assimp/Importer.hpp>
+#include <assimp/include/assimp/scene.h>
+#include <assimp/include/assimp/postprocess.h>
+#include <GL/include/glew.h>
+#include <string>
+#include <iostream>
+#include <vector>
+
+// メッシュを保持するための構造体
+struct Mesh 
+{
+    std::vector<float> vertices; // 頂点座標
+    std::vector<float> normals;  // 法線
+    std::vector<float> texCoords; // テクスチャ座標
+    std::vector<unsigned int> indices; // 頂点インデックス
+};
+
+class MeshLoader
+{
+public:
+    bool LoadModel(const std::string& path, std::vector<Mesh>& meshes); 
+};

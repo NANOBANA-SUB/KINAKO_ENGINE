@@ -14,10 +14,12 @@ public:
     void Initialize();
     void setupColors();
     void setupLights();
-    void renderActors(PxRigidActor** actors, const PxU32 numActors, bool shadows, const PxVec3& color);
+    void renderActor(PxRigidActor* actor, bool shadows);
     PX_FORCE_INLINE void renderGeometryHolder(const PxGeometryHolder& h);
 
 private:
+    void RenderBox(const PxBoxGeometry& boxGeom);
+    
     Engine* mEngine;
     quill::Logger* mLogger;
 };

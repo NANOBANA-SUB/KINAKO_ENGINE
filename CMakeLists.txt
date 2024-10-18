@@ -10,8 +10,11 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # インクルードディレクトリを指定
 include_directories(
-    ${CMAKE_SOURCE_DIR}/third_party
+    ${CMAKE_SOURCE_DIR}/third_party/PhysX/include
+    ${CMAKE_SOURCE_DIR}/third_party/PhysX/include/foundation
+    ${CMAKE_SOURCE_DIR}/third_party/SDL2/include
     ${CMAKE_SOURCE_DIR}/third_party/assimp/include
+    ${CMAKE_SOURCE_DIR}/third_party
     ${CMAKE_SOURCE_DIR}/Main/include
     ${CMAKE_SOURCE_DIR}/include
 )
@@ -29,6 +32,7 @@ set(SOURCES
     Main/src/Main.cpp
     Main/src/Engine.cpp
     Main/src/MeshLoader.cpp
+    Main/src/Render.cpp
 )
 
 # 実行ファイルを作成（通常ビルド用）
@@ -52,10 +56,13 @@ if(BUILD_TESTS)
     # テスト用のソースファイルを設定
     set(TEST_SOURCES
         test/EngineTest.cpp
+        Main/src/Engine.cpp
+        Main/src/MeshLoader.cpp  # MeshLoader.cpp を追加
+        Main/src/Render.cpp      # Render.cpp を追加
     )
 
     # テスト実行ファイルを作成
-    add_executable(test_engine ${TEST_SOURCES} Main/src/Engine.cpp)
+    add_executable(test_engine ${TEST_SOURCES})
 
     # テスト実行ファイルにライブラリをリンク
     target_link_libraries(test_engine
@@ -63,5 +70,6 @@ if(BUILD_TESTS)
         SDL2
         glew32
         opengl32
+        assimp-vc143-mtd
     )
 endif()

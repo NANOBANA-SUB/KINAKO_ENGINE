@@ -1,5 +1,6 @@
 #pragma once
 #include "../include/Engine.h"
+#include "../include/MeshLoader.h"
 #include "GL/include/glew.h"
 #include "quill/LogMacros.h"
 #include "quill/Logger.h"
@@ -60,9 +61,26 @@ bool Engine::Initialize()
 
 void Engine::RunLoop()
 {
+    MeshLoader meshLoader;
+    mRender = Render(mLogger, mWindow);
+
+    std::vector<Mesh> meshes;
     while (mIsRunning)
     {
         ProcessInput();
+
+        if (meshLoader.LoadModel("./models/test.obj", meshes))
+        {
+            glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+            glEnable(GL_DEPTH_TEST);
+            glDisable(GL_BLEND);
+
+            mRender.RenderMeshes(meshes);
+
+            SDL_GL_SwapWindow(mWindow);
+        }
     }
     
 }

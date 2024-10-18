@@ -1,4 +1,6 @@
-#include <SDL2/include/SDL.h>
+#pragma once
+#include "Render.h"
+#include <SDL.h>
 #include <quill/Frontend.h>
 #include <quill/Backend.h>
 
@@ -19,6 +21,7 @@ private:
 
     quill::Logger* mLogger;
     SDL_Window* mWindow;
+    Render mRender;
     SDL_GLContext mContext;
     bool mIsRunning;
 };

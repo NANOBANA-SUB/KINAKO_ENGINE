@@ -1,25 +1,26 @@
 #pragma once
-#include "Engine.h"
 #include "PxTransform.h"
-#include "PxPhysicsAPI.h"
+#include "MeshLoader.h"
+#include <SDL.h>
 #include <quill/Backend.h>
 #include <quill/Frontend.h>
 
-using namespace physx;
+using namespace quill;
 
 class Render
 {
 public:
-    Render(Engine engine):mEngine(engine), mLogger(mEngine->GetLogger()) {}
+    Render():mLogger(nullptr), mWindow(nullptr) {}
+    Render(Logger* logger, SDL_Window* window):mLogger(logger), mWindow(window) {}
     void Initialize();
-    void setupColors();
-    void setupLights();
-    void renderActor(PxRigidActor* actor, bool shadows);
-    PX_FORCE_INLINE void renderGeometryHolder(const PxGeometryHolder& h);
+    void SetupColors();
+    void SetupLights();
+    void RenderMesh(const Mesh& mesh);
+    void RenderMeshes(const std::vector<Mesh>& meshes);
+    void DrawMeshes(SDL_Window* window);
 
 private:
-    void RenderBox(const PxBoxGeometry& boxGeom);
     
-    Engine* mEngine;
-    quill::Logger* mLogger;
+    SDL_Window* mWindow;
+    Logger* mLogger;
 };

@@ -2,6 +2,8 @@
 #include <assimp/include/assimp/Importer.hpp>
 #include <assimp/include/assimp/scene.h>
 #include <assimp/include/assimp/postprocess.h>
+#include <quill/Frontend.h>
+#include <quill/Backend.h>
 #include <GL/include/glew.h>
 #include <string>
 #include <iostream>
@@ -19,5 +21,9 @@ struct Mesh
 class MeshLoader
 {
 public:
-    bool LoadModel(const std::string& path, std::vector<Mesh>& meshes); 
+    MeshLoader();
+    bool LoadModel(const std::string& path, std::vector<Mesh>& meshes);
+
+private:
+    quill::Logger* mLogger;
 };

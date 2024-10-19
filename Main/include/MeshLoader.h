@@ -1,10 +1,10 @@
 #pragma once
-#include <assimp/include/assimp/Importer.hpp>
-#include <assimp/include/assimp/scene.h>
-#include <assimp/include/assimp/postprocess.h>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 #include <quill/Frontend.h>
 #include <quill/Backend.h>
-#include <GL/include/glew.h>
+#include <glew.h>
 #include <string>
 #include <iostream>
 #include <vector>

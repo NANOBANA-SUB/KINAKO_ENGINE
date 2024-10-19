@@ -1,10 +1,14 @@
 #pragma once
 #include "../include/Engine.h"
 #include "../include/MeshLoader.h"
-#include "GL/include/glew.h"
-#include "quill/LogMacros.h"
-#include "quill/Logger.h"
-#include "quill/sinks/ConsoleSink.h"
+#include "../include/MeshController.h"
+#include <glew.h>
+#include <quill/LogMacros.h>
+#include <quill/Logger.h>
+#include <quill/sinks/ConsoleSink.h>
+#include <imgui/imgui.h>
+#include <imgui/backends/imgui_impl_sdl2.h>
+#include <imgui/backends/imgui_impl_opengl3.h>
 #include <iostream>
 
 #define WINDOW_WIDTH 1280
@@ -56,6 +60,13 @@ bool Engine::Initialize()
 
     glGetError();
 
+    // ImGUI初期化
+    if (ImGUIInitialize() != true)
+    {
+        LOG_ERROR(mLogger, "Failed to initialize ImGui:", 1000-3);
+        return false;
+    }
+
     return true;
 }
 
@@ -64,25 +75,38 @@ void Engine::RunLoop()
     MeshLoader meshLoader;
     mRender = Render(mLogger, mWindow);
 
-    std::vector<Mesh> meshes;
+    std::vector<Mesh> originalMeshes;
+    std::vector<Mesh> editMeshes;
+
+    MeshController meshController;
+    if (meshLoader.LoadModel("./models/test.obj", originalMeshes))
+        editMeshes = originalMeshes;
+
     while (mIsRunning)
     {
         ProcessInput();
 
-        if (meshLoader.LoadModel("./models/test.obj", meshes))
-        {
-            glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        ImGUIFrameStart();
 
-            glEnable(GL_DEPTH_TEST);
-            glDisable(GL_BLEND);
+        editMeshes = originalMeshes;
+        meshController.RenderUI();
+        meshController.ApplyTransforms(editMeshes);
+        
+        ImGUIRender();
+        
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            mRender.RenderMeshes(meshes);
+        glEnable(GL_DEPTH_TEST);
+        glDisable(GL_BLEND);
 
-            SDL_GL_SwapWindow(mWindow);
-        }
+        mRender.RenderMeshes(editMeshes); 
+
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        SDL_GL_SwapWindow(mWindow);
     }
     
+    ImGUIEnd();
 }
 
 void Engine::Shutdown()
@@ -113,12 +137,51 @@ bool Engine::QuillInitialize()
     }
 }
 
+bool Engine::ImGUIInitialize()
+{
+    try
+    {
+        ImGui::CreateContext();
+        ImGui::StyleColorsDark();
+        ImGui_ImplSDL2_InitForOpenGL(mWindow, mContext);
+        ImGui_ImplOpenGL3_Init("#version 130");
+
+        LOG_INFO(mLogger, "ImGui initialize completed.");
+        return true;
+    }
+    catch (const std::exception& e)
+    {
+        LOG_ERROR(mLogger, "Failed to initialize ImGUI.", 1);
+        return false;
+    }
+}
+
+void Engine::ImGUIFrameStart()
+{
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame();
+    ImGui::NewFrame();
+}
+
+void Engine::ImGUIRender()
+{
+    ImGui::Render();
+}
+
+void Engine::ImGUIEnd()
+{
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplSDL2_Shutdown();
+    ImGui::DestroyContext();
+}
+
 void Engine::ProcessInput()
 {
     SDL_Event event;
 
     while (SDL_PollEvent(&event))
     {
+        ImGui_ImplSDL2_ProcessEvent(&event);
         switch (event.type)
 		{
 			case SDL_QUIT:

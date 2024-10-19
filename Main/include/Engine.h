@@ -15,6 +15,10 @@ public:
     
 private:
     bool QuillInitialize();
+    bool ImGUIInitialize();
+    void ImGUIFrameStart();
+    void ImGUIRender();
+    void ImGUIEnd();
     void ProcessInput();
     void UpdateEngine();
     void GenerateOutput();

@@ -14,6 +14,10 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/third_party/PhysX/include/foundation
     ${CMAKE_SOURCE_DIR}/third_party/SDL2/include
     ${CMAKE_SOURCE_DIR}/third_party/assimp/include
+    ${CMAKE_SOURCE_DIR}/third_party/GL/include
+    ${CMAKE_SOURCE_DIR}/third_party/glm/include
+    ${CMAKE_SOURCE_DIR}/third_party/imgui
+    ${CMAKE_SOURCE_DIR}/third_party/imgui/backends
     ${CMAKE_SOURCE_DIR}/third_party
     ${CMAKE_SOURCE_DIR}/Main/include
     ${CMAKE_SOURCE_DIR}/include
@@ -25,6 +29,7 @@ link_directories(
     ${CMAKE_SOURCE_DIR}/third_party/SDL2/lib/x64
     ${CMAKE_SOURCE_DIR}/third_party/quill/include
     ${CMAKE_SOURCE_DIR}/third_party/assimp/lib
+    ${CMAKE_SOURCE_DIR}/third_party/glm/lib
 )
 
 # ソースファイルを指定
@@ -33,6 +38,13 @@ set(SOURCES
     Main/src/Engine.cpp
     Main/src/MeshLoader.cpp
     Main/src/Render.cpp
+    Main/src/MeshController.cpp
+    third_party/imgui/imgui.cpp
+    third_party/imgui/imgui_draw.cpp
+    third_party/imgui/imgui_widgets.cpp
+    third_party/imgui/imgui_tables.cpp
+    third_party/imgui/backends/imgui_impl_opengl3.cpp
+    third_party/imgui/backends/imgui_impl_sdl2.cpp
 )
 
 # 実行ファイルを作成（通常ビルド用）
@@ -45,6 +57,7 @@ target_link_libraries(KINAKO_ENGINE
     glew32
     opengl32
     assimp-vc143-mtd
+    glm
 )
 
 # テストのビルドオプションを追加
@@ -59,6 +72,13 @@ if(BUILD_TESTS)
         Main/src/Engine.cpp
         Main/src/MeshLoader.cpp  # MeshLoader.cpp を追加
         Main/src/Render.cpp      # Render.cpp を追加
+        Main/src/MeshController.cpp
+        third_party/imgui/imgui.cpp
+        third_party/imgui/imgui_draw.cpp
+        third_party/imgui/imgui_widgets.cpp
+        third_party/imgui/imgui_tables.cpp
+        third_party/imgui/backends/imgui_impl_opengl3.cpp
+        third_party/imgui/backends/imgui_impl_sdl2.cpp
     )
 
     # テスト実行ファイルを作成
@@ -71,5 +91,6 @@ if(BUILD_TESTS)
         glew32
         opengl32
         assimp-vc143-mtd
+        glm
     )
 endif()
